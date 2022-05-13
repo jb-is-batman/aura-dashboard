@@ -14,26 +14,57 @@ class PanicModel {
 
 
 class Panics {
+  String? panicId;
+  String? fkUserId;
+  String? fkDeviceId;
+  String? fkClientId;
+  String? fkPanictypeId;
+  double? lat;
+  double? long;
+  int?    timestamp;
+  String? userId;
+  String? username;
+  String? mobile;
+  String? address;
+  String? deviceId;
+  String? devicename;
+  String? panictypeId;
+  String? panictypename;
 
-  late String panicId;
-  late String userName;
-  late String device;
-  String?     client;
-  late String panicType;
-  late double lat;
-  late double long;
-  late int    timestamp;
-
-   Panics({required this.panicId, required this.userName, required this.device, required this.panicType, required this.lat, required this.long, required this.timestamp});
+  Panics(
+      {this.panicId,
+      this.fkUserId,
+      this.fkDeviceId,
+      this.fkClientId,
+      this.fkPanictypeId,
+      this.lat,
+      this.long,
+      this.timestamp,
+      this.userId,
+      this.username,
+      this.mobile,
+      this.address,
+      this.deviceId,
+      this.devicename,
+      this.panictypeId,
+      this.panictypename});
 
   Panics.fromJson(Map<String, dynamic> json) {
-    panicId   = json[""];
-    userName  = json[""];
-    device    = json[""];
-    client    = json[""];
-    panicType = json[""];
-    lat       = json[""];
-    long      = json[""];
-    timestamp = json[""];
+    panicId       = json['panic_id'];
+    fkUserId      = json['fk_user_id'];
+    fkDeviceId    = json['fk_device_id'];
+    fkClientId    = json['fk_client_id'];
+    fkPanictypeId = json['fk_panictype_id'];
+    lat           = json['lat'];
+    long          = json['long'];
+    timestamp     = json['timestamp'];
+    userId        = json['user_id'];
+    username      = json['username'];
+    mobile        = json['mobile'];
+    address       = json['address'];
+    deviceId      = json['device_id'];
+    devicename    = json['devicename'];
+    panictypeId   = json['panictype_id'];
+    panictypename = json['panictypename'];
   }
 }

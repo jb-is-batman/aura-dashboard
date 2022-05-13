@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/link.dart';
 
 import 'homepage_viewmodel.dart';
 
@@ -11,79 +12,33 @@ class HomePageView extends StatelessWidget {
     return ViewModelBuilder<HomePageViewModel>.reactive(
       builder: (BuildContext context, HomePageViewModel model, Widget? child) {
         return Scaffold(
-          body: Column(
-            children: [
-              ListTile(
-                title: Row(
+          body: model.isBusy ? CircularProgressIndicator() : model.hasError ?  Center(child: Text("ERROR"),) :
+          ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
                   children: [
-                    Expanded(child: Text("Name")),
-                    Expanded(child: Text("Mobile")),
-                    Expanded(child: Text("Device")),
-                    Expanded(child: Text("Timestamp")),
-                    Expanded(child: Text("Location")),
-                    Expanded(child: Text("Client")),
-                  ],
-                ),
-              ),
-              Divider(),
-              ListTile(
-                trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: (){},
-                title: Row(
-                  children: [
-                    Expanded(child: Text("JB van der Merwe")),
-                    Expanded(child: Text("+27 71 653 1337")),
-                    Expanded(child: Text("Phone")),
-                    Expanded(child: Text("Fri, 13 May 2022 06:58:30 GMT")),
-                    Expanded(child: Text("-26.111709, 28.281188")),
-                    Expanded(child: DropdownButton(
-                      value: model.dropdownvalue,
-                      icon: const Icon(Icons.keyboard_arrow_down),    
-                      items: model.items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) { 
-                        model.setDropdownValue(newValue);
-                        // model.dropdownvalue = newValue!;
+                    Expanded(child: Text(model.panicModel!.panics[index].username!)),
+                    Expanded(child: Text(model.panicModel!.panics[index].mobile!)),
+                    Expanded(child: Text(model.panicModel!.panics[index].address!)),
+                    Expanded(child: Text("${model.panicModel!.panics[index].timestamp!}")),
+                    Expanded(child: Text(model.panicModel!.panics[index].panictypename!)),
+                    Expanded(child: Text("${model.panicModel!.panics[index].lat!}, ${model.panicModel!.panics[index].long!}")),
+                    Link(
+                      target: LinkTarget.blank,
+                      uri: Uri.parse("https://www.google.com/maps/@${model.panicModel!.panics[index].lat!},${model.panicModel!.panics[index].long!},17z,"),
+                      builder: (_, dynamic followLink) {
+                        return TextButton(onPressed: followLink, child: Text("Map"));
                       },
-                    ))
+                    )
                   ],
                 ),
-              ),
-              ListTile(
-                trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: (){},
-                title: Row(
-                  children: [
-                    Expanded(child: Text("Handri Fourie")),
-                    Expanded(child: Text("+27 84 205 7889")),
-                    Expanded(child: Text("Panic Button")),
-                    Expanded(child: Text("Thursday, 12 May 2022 07:00:30 GMT")),
-                    Expanded(child: Text("-26.111709, 28.281188")),
-                    // Expanded(child: ,// _dropdownButton(model),
-                    Expanded(child: DropdownButton(
-                      value: model.dropdownvalue,
-                      icon: const Icon(Icons.keyboard_arrow_down),    
-                      items: model.items.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text(items),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) { 
-                        model.setDropdownValue(newValue);
-                        model.dropdownvalue = newValue!;
-                      },
-                    ))
-                  ],
-                ),
-              )
-            ],
+              );
+            },
+            itemCount: model.panicModel == null ? 0 : model.panicModel!.panics.length,
           )
-        );
+        ) ;
       },
       viewModelBuilder: () => HomePageViewModel(),
     );
@@ -108,22 +63,4 @@ class HomePageView extends StatelessWidget {
       },
     );
   }
-
 }
-
-
-
-// ListView.builder(itemBuilder: (BuildContext context, int index) {
-//             return Card(
-//               child: Row(
-//                 children: [
-//                   Text("JB van der Merwe"),
-//                   Text("Mobile"),
-//                   Text("+27 71 491 1337"),
-//                   Text("Timestamp")
-//                 ],
-//               ),
-//               color: Colors.green.shade100,
-//             );
-//           }),
-//         );
