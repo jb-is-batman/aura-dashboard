@@ -6,12 +6,11 @@ class PanicModel {
 
   PanicModel.fromJson(List<dynamic> json) {
     panics = [];
-    json.forEach((v) {
+    for (var v in json) {
       panics.add(Panics.fromJson(v));
-    });
+    }
   }
 }
-
 
 class Panics {
   String? panicId;
@@ -30,6 +29,7 @@ class Panics {
   String? devicename;
   String? panictypeId;
   String? panictypename;
+  String? clientName;
 
   Panics(
       {this.panicId,
@@ -47,7 +47,8 @@ class Panics {
       this.deviceId,
       this.devicename,
       this.panictypeId,
-      this.panictypename});
+      this.panictypename,
+      this.clientName});
 
   Panics.fromJson(Map<String, dynamic> json) {
     panicId       = json['panic_id'];
